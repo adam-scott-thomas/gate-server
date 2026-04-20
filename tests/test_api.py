@@ -107,7 +107,7 @@ async def test_filter_normal(client):
     r = await client.post("/api/v1/tools/filter", json={"mode": 0.1})
     assert r.status_code == 200
     body = r.json()
-    assert body["mode_status"] == "normal"
+    assert body["mode_zone"] == "normal"
     assert len(body["visible"]) == 2
     assert len(body["suppressed"]) == 0
 
@@ -123,7 +123,7 @@ async def test_filter_crisis(client):
     r = await client.post("/api/v1/tools/filter", json={"mode": 0.9})
     assert r.status_code == 200
     body = r.json()
-    assert body["mode_status"] == "crisis"
+    assert body["mode_zone"] == "crisis"
     visible_names = [t["name"] for t in body["visible"]]
     suppressed_names = [t["name"] for t in body["suppressed"]]
     assert "safe" in visible_names
@@ -311,4 +311,4 @@ async def test_mode_history_after_filter(client):
     assert body["total"] == 2
     assert body["entries"][0]["mode"] == 0.3
     assert body["entries"][1]["mode"] == 0.9
-    assert body["entries"][1]["mode_status"] == "crisis"
+    assert body["entries"][1]["mode_zone"] == "crisis"

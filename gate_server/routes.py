@@ -83,7 +83,7 @@ async def filter_tools(req: FilterRequest, request: Request):
     result = gate.filter(req.mode)
     mode_history.append(ModeEntry(
         mode=result.mode,
-        mode_status=result.mode_status,
+        mode_zone=result.mode_zone,
         timestamp=datetime.now(timezone.utc).isoformat(),
         visible_count=len(result.visible),
         suppressed_count=len(result.suppressed),
@@ -92,7 +92,7 @@ async def filter_tools(req: FilterRequest, request: Request):
         visible=[_tool_out(t) for t in result.visible],
         suppressed=[_tool_out(t) for t in result.suppressed],
         mode=result.mode,
-        mode_status=result.mode_status,
+        mode_zone=result.mode_zone,
         thresholds=result.thresholds,
     )
 

@@ -32,7 +32,7 @@ class FilterResponse(BaseModel):
     visible: list[ToolOut]
     suppressed: list[ToolOut]
     mode: float
-    mode_status: str
+    mode_zone: str
     thresholds: dict[str, float | None]
 
 
@@ -109,7 +109,7 @@ class OpenAIExportRequest(BaseModel):
 
 class ModeEntry(BaseModel):
     mode: float
-    mode_status: str
+    mode_zone: str
     timestamp: str
     visible_count: int
     suppressed_count: int
