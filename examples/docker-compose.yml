@@ -1,0 +1,68 @@
+# Maelstrom Gate — Multi-service deployment
+#
+# Runs gate-server (Python) and gate-server-go side by side behind
+# a shared network. Add gate-policy as a sidecar when ready.
+#
+# Usage:
+#   docker compose up -d
+#   curl http://localhost:8900/api/v1/health   # Python server
+#   curl http://localhost:8090/health           # Go server
+#
+# NOT WIRED YET — An Improver should:
+#   1. Build gate-server-go image (or pull from registry)
+#   2. Add gate-policy sidecar container
+#   3. Add a reverse proxy (nginx/caddy) to unify under one port
+#   4. Add volume mounts for persistent tool state
+#
+# Seeded by Creator 2 (gate-server), Loop 5.
+
+services:
+  gate-server-py:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    ports:
+      - "8900:8900"
+    environment:
+      - GATE_SIGNING_KEY=${GATE_SIGNING_KEY:-gate-dev-key}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8900/api/v1/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - gate-net
+
+  gate-server-go:
+    # TODO: Build from ../gate-server-go or use registry image
+    # build:
+    #   context: ../../gate-server-go
+    #   dockerfile: Dockerfile
+    image: gate-server-go:latest
+    ports:
+      - "8090:8090"
+    environment:
+      - GATE_SIGNING_KEY=${GATE_SIGNING_KEY:-gate-dev-key}
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8090/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - gate-net
+
+  # Placeholder: gate-policy sidecar
+  # gate-policy:
+  #   build:
+  #     context: ../../gate-policy
+  #   environment:
+  #     - GATE_SERVER_URL=http://gate-server-py:8900
+  #   depends_on:
+  #     gate-server-py:
+  #       condition: service_healthy
+  #   networks:
+  #     - gate-net
+
+networks:
+  gate-net:
+    driver: bridge

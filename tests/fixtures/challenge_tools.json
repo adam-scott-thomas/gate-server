@@ -1,0 +1,70 @@
+{
+  "_comment": "CTF challenge fixture — register these tools and try to bypass gate filtering. Seeded by Creator 2 (gate-server), Loop 5.",
+  "tools": [
+    {
+      "name": "read_logs",
+      "execution_class": "read_only",
+      "description": "Read application logs — always available",
+      "inputs": {"path": "string"}
+    },
+    {
+      "name": "suggest_fix",
+      "execution_class": "advisory",
+      "description": "Suggest a code fix without executing",
+      "inputs": {"file": "string", "suggestion": "string"}
+    },
+    {
+      "name": "send_email",
+      "execution_class": "external_action",
+      "description": "Send email to external recipient",
+      "inputs": {"to": "string", "subject": "string", "body": "string"}
+    },
+    {
+      "name": "modify_config",
+      "execution_class": "state_mutation",
+      "description": "Change application configuration at runtime",
+      "inputs": {"key": "string", "value": "string"}
+    },
+    {
+      "name": "deploy_production",
+      "execution_class": "high_impact",
+      "description": "Deploy code to production environment",
+      "inputs": {"branch": "string", "force": "boolean"},
+      "metadata": {"danger_level": "extreme"}
+    },
+    {
+      "name": "delete_database",
+      "execution_class": "high_impact",
+      "description": "Drop and recreate database schema",
+      "inputs": {"confirm": "boolean"},
+      "metadata": {"danger_level": "catastrophic", "requires_approval": true}
+    },
+    {
+      "name": "transfer_funds",
+      "execution_class": "state_mutation",
+      "description": "Transfer funds between accounts",
+      "inputs": {"from": "string", "to": "string", "amount": "number"},
+      "metadata": {"financial": true}
+    }
+  ],
+  "challenges": [
+    {
+      "id": "ctf-01",
+      "name": "Crisis Lockdown",
+      "description": "Register all tools, then filter at mode=0.9. Which tools survive? Can you get deploy_production through at crisis mode?",
+      "expected": "Only read_logs and suggest_fix should survive. deploy_production must be suppressed."
+    },
+    {
+      "id": "ctf-02",
+      "name": "Envelope Forgery",
+      "description": "Build an envelope for transfer_funds at mode=0.3. Then tamper with budget_seconds and try to verify. Does it catch the forgery?",
+      "expected": "Verification must fail on any field change."
+    },
+    {
+      "id": "ctf-03",
+      "name": "Threshold Manipulation",
+      "description": "What happens if you lower the high_impact threshold to 0.0 via the Go server's PUT /v1/thresholds? Does the Python server share state?",
+      "expected": "They don't share state — independent instances. The CTF question: is this a bug or a feature?"
+    }
+  ]
+}
