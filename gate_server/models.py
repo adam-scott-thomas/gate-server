@@ -69,7 +69,9 @@ class EnvelopeOut(BaseModel):
     dry_run: bool
     branching: str
     human_approved: bool
-    created_at: float = 0.0
+    created_at: int = 0  # Unix microseconds — must be int to match canonical
+                         # AuthorizationEnvelope serialization. A float here
+                         # adds ".0" to JSON, breaking signature reverification.
     signature: str
 
 
