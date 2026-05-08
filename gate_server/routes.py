@@ -10,14 +10,14 @@ from datetime import datetime, timezone
 
 from fastapi import APIRouter, HTTPException, Request
 
-from maelstrom_gate import Tool
-from maelstrom_gate.envelope import (
+from gatekeeper import Tool
+from gatekeeper.envelope import (
     AuthorizationEnvelope,
     build_envelope,
     verify_envelope,
     verify_envelope_fresh,
 )
-from maelstrom_gate.ingress import validate_proposal
+from gatekeeper.ingress import validate_proposal
 
 from gate_server import __version__
 from gate_server.models import (

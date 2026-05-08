@@ -4,9 +4,9 @@
 [![tests](https://img.shields.io/badge/tests-34_passing-brightgreen)]()
 [![license](https://img.shields.io/badge/license-Apache_2.0-green)]()
 
-> HTTP microservice exposing Maelstrom Gate as a deployable service.
+> HTTP microservice exposing Gatekeeper as a deployable service.
 
-Wraps `maelstrom-gate` in a FastAPI app so agents, dashboards, and CI systems can
+Wraps `gate-keeper` in a FastAPI app so agents, dashboards, and CI systems can
 talk to a single governance endpoint over HTTP. One process holds the mode zone,
 the registered tool set, and the signing key for envelopes.
 
@@ -88,7 +88,7 @@ pytest tests/
 
 ## How it fits
 
-Layer 1 (transport) in [Maelstrom Gate](https://github.com/adam-scott-thomas/maelstrom-gate).
+Layer 1 (transport) in [Gatekeeper](https://github.com/adam-scott-thomas/gate-keeper).
 Consumed by `gate-sdk`, `gatectl`, `gate-dash`, `gate-dashboard`, and any process
 that can speak HTTP.
 

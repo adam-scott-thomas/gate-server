@@ -9,7 +9,7 @@ description = "HTTP server exposing Maelstrom Gate as a deployable microservice"
 requires-python = ">=3.10"
 license = {text = "Apache-2.0"}
 dependencies = [
-    "maelstrom-gate",
+    "gate-keeper>=1.0.0",
     "fastapi>=0.110",
     "uvicorn[standard]>=0.29",
     "pydantic>=2.0",

@@ -63,7 +63,7 @@ def cmd_envelope(args):
 def main():
     parser = argparse.ArgumentParser(
         prog="gate-ctl",
-        description="CLI for Maelstrom Gate Server operations",
+        description="CLI for Gatekeeper Server operations",
     )
     parser.add_argument("--url", default=DEFAULT_URL, help="gate-server base URL")
     sub = parser.add_subparsers(dest="command", required=True)

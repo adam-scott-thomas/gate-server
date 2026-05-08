@@ -6,17 +6,17 @@ from collections import deque
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from maelstrom_gate import Gate
+from gatekeeper import Gate
 from gate_server import __version__
 from gate_server.routes import router
 
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title="Maelstrom Gate Server",
+        title="Gatekeeper Server",
         version=__version__,
         description=(
-            "HTTP microservice for Maelstrom Gate — runtime governance "
+            "HTTP microservice for Gatekeeper — runtime governance "
             "for AI tool access. Register tools, filter by threat mode, "
             "build signed authorization envelopes, and validate ingress proposals."
         ),
